@@ -18,7 +18,7 @@ export const sendOtp = async (phoneNumber) => {
       throw new Error('OTP 저장 중 오류 발생: ' + error.message);
     }
 
-    await sendMessage(phoneNumber, `오하린 인증번호 [${otp}]`);
+    await sendMessage(phoneNumber, `Fall in You 인증번호 [${otp}]`);
     return otp;
   } catch (error) {
     console.error('sendOtp 함수에서 오류 발생:', error);
