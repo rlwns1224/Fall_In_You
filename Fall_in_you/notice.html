@@ -1,11 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
+    <h1>게시판</h1>
     
+    <button onclick="location.href='add_post.html'">게시글 추가</button>
+
+    <h2>게시글</h2>
+    <select id="filterCategory" onchange="fetchPosts()">
+        <option value="">모든 카테고리</option>
+        <option value="의료">의료</option>
+        <option value="주거">주거</option>
+        <option value="교육">교육</option>
+        <option value="기타">기타</option>
+    </select>
+
+    <div id="posts"></div>
+
+    <script src="app.js"></script>
 </body>
 </html>
