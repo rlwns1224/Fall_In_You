@@ -28,5 +28,15 @@
         <button type="submit">등록</button>
     </form>
     <div id="message"></div>
+    
+    <!-- 이전 페이지 버튼 추가 -->
+    <button id="backButton">이전 페이지</button>
+
+    <script>
+        // 이전 페이지 버튼 클릭 시 notice.html로 이동
+        document.getElementById('backButton').onclick = function() {
+            window.location.href = 'notice.html';
+        };
+    </script>
 </body>
 </html>
