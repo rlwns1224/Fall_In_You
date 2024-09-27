@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
 </head>
+
 <body>
     <h1>로그인</h1>
 
@@ -17,11 +19,13 @@
 
         <button type="submit">로그인</button>
     </form>
+    <br>
+    <button id="signup-button">회원가입</button>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', async function(event) {
+        document.getElementById('login-form').addEventListener('submit', async function (event) {
             event.preventDefault();
-            
+
             const formData = {
                 phoneNumber: document.getElementById('phoneNumber').value,
                 password: document.getElementById('password').value
@@ -44,6 +48,11 @@
                 alert('로그인 실패. 전화번호 또는 비밀번호를 확인해주세요.');
             }
         });
+        // 회원가입 버튼 클릭 시 회원가입 페이지로 이동
+        document.getElementById('signup-button').addEventListener('click', function () {
+            window.location.href = 'signup.html';  // 회원가입 페이지로 리디렉션
+        });
     </script>
 </body>
+
 </html>

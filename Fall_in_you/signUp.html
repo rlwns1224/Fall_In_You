@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
 </head>
+
 <body>
     <h1>회원가입</h1>
 
     <form id="signup-form">
         <label for="phoneNumber">전화번호:</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+        <input type="text" id="phoneNumber" name="phoneNumber" required>
+        <button type="button" id="send-otp">인증</button><br><br>
+
+        <!-- OTP 입력 필드 -->
+        <div id="otp-section" style="display:none;">
+            <label for="otp">OTP 입력:</label>
+            <input type="text" id="otp" name="otp" required>
+            <button type="button" id="verify-otp">OTP 인증</button><br><br>
+        </div>
 
         <label for="nickname">닉네임:</label>
         <input type="text" id="nickname" name="nickname" required><br><br>
@@ -22,8 +32,6 @@
         <select id="language" name="language">
             <option value="ko">한국어</option>
             <option value="en">영어</option>
-            <option value="zh">중국어</option>
-            <!-- 필요에 따라 언어를 추가할 수 있습니다 -->
         </select><br><br>
 
         <label for="country">나라 선택:</label>
@@ -245,13 +253,95 @@
         <label for="receiveNotifications">알림 수신 동의:</label>
         <input type="checkbox" id="receiveNotifications" name="receiveNotifications"><br><br>
 
-        <button type="submit">회원가입</button>
+        <button type="submit" id="signup-button" disabled>회원가입</button>
     </form>
 
     <script>
-        document.getElementById('signup-form').addEventListener('submit', async function(event) {
+        let otpVerified = false;
+
+        // OTP 발송
+        document.getElementById('send-otp').addEventListener('click', async function () {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+
+            if (phoneNumber === '') {
+                alert('전화번호를 입력하세요.');
+                return;
+            }
+
+            if (!phoneNumber.match(/^01[0-9]{8,9}$/)) {
+                alert('올바른 전화번호 형식을 입력해주세요.');
+                return;
+            }
+
+            try {
+				// 전화번호 중복 체크 및 OTP 발송 요청
+				const response = await fetch('http://localhost:3000/api/sms/auth/otp', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ phoneNumber }),
+				});
+
+				if (!response.ok) {
+					throw new Error(`서버 오류: ${response.status}`);
+				}
+
+				const data = await response.json();
+
+				if (data.isDuplicate) {
+					alert('중복된 전화번호입니다.');
+				} else if (data.otpSent) {
+					alert('OTP가 발송되었습니다.');
+					document.getElementById('otp-section').style.display = 'block';  // OTP 입력란 보이기
+				} else {
+					alert('OTP 발송에 실패했습니다.');
+				}
+			} catch (error) {
+				console.error('OTP 발송 오류:', error);
+				alert('서버 오류로 인해 OTP 발송에 실패했습니다.');
+			}
+        });
+
+        // OTP 인증
+        document.getElementById('verify-otp').addEventListener('click', async function () {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const otp = document.getElementById('otp').value;
+
+            const response = await fetch('http://localhost:3000/api/sms/auth/otp/validation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phoneNumber, code: otp })
+            });
+
+            const data = await response.json();
+
+            if (data.verified) {
+                alert('OTP 인증이 완료되었습니다.');
+                otpVerified = true;  // 인증 성공 시 flag 설정
+                document.getElementById('signup-button').disabled = false;  // 회원가입 버튼 활성화
+
+                // 휴대폰 번호 입력, OTP 버튼, OTP 입력 및 인증 버튼 비활성화
+                document.getElementById('phoneNumber').disabled = true;
+                document.getElementById('send-otp').disabled = true;
+                document.getElementById('otp').disabled = true;
+                document.getElementById('verify-otp').disabled = true;
+            } else {
+                alert('OTP 인증에 실패했습니다.');
+            }
+        });
+
+        // 회원가입 처리
+        document.getElementById('signup-form').addEventListener('submit', async function (event) {
             event.preventDefault();
-            
+
+            if (!otpVerified) {
+                alert('OTP 인증을 완료해주세요.');
+                return;
+            }
+
             const formData = {
                 phoneNumber: document.getElementById('phoneNumber').value,
                 nickname: document.getElementById('nickname').value,
@@ -263,7 +353,7 @@
                 receiveNotifications: document.getElementById('receiveNotifications').checked
             };
 
-            const response = await fetch('/api/signUp', {
+            const response = await fetch('http://localhost:3000/api/signUp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -273,11 +363,12 @@
 
             if (response.ok) {
                 alert('회원가입이 완료되었습니다!');
-                window.location.href = '/login';  // 회원가입 후 로그인 페이지로 리디렉션
+                window.location.href = 'login.html';  // 회원가입 후 로그인 페이지로 리디렉션
             } else {
                 alert('회원가입에 실패하였습니다.');
             }
         });
     </script>
 </body>
+
 </html>
