@@ -29,7 +29,7 @@ function displayPosts(posts) {
         const postElement = document.createElement('div');
         postElement.classList.add('post');
         postElement.innerHTML = `
-            <h3>${post.title}</h3>
+            <h3><a href="post_detail.html?id=${post.id}">${post.title}</a></h3>
             <p>${post.contents}</p>
             <p>카테고리: ${post.category}</p>
         `;
