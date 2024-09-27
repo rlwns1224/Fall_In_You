@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅하기</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <h1>채팅하기</h1>
+    <div id="chatContainer">
+        <div id="messagesContainer"></div>
+        <textarea id="messageInput" placeholder="메시지를 입력하세요..." required></textarea>
+        <button id="sendMessage">전송</button>
+        <button id="endChat">채팅 끝내기</button> <!-- 채팅 끝내기 버튼 추가 -->
+    </div>
+    <div id="message"></div>
+    
+    <script>
+        const supabaseUrl = 'https://lfiiyfntsxuukrwuyiih.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmaWl5Zm50c3h1dWtyd3V5aWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0NDI3NjQsImV4cCI6MjA0MzAxODc2NH0.qCccNoz9idzMM89MXPo_yI5xshaV3ea5jq33l-qrqLI';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        const urlParams = new URLSearchParams(window.location.search);
+        const phoneNumber = urlParams.get('phone'); // 쿼리 파라미터에서 전화번호 가져오기
+
+        // 채팅 시작
+        document.getElementById('sendMessage').addEventListener('click', sendMessage);
+        
+        // 채팅 끝내기
+        document.getElementById('endChat').addEventListener('click', endChat);
+
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+
+            if (!message) {
+                alert('메시지를 입력하세요.');
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('chat_messages')
+                .insert([{ message, phone_number: phoneNumber }]); // 메시지와 전화번호 저장
+
+            if (error) {
+                console.error('Error sending message:', error);
+            } else {
+                document.getElementById('messageInput').value = ''; // 입력란 초기화
+                fetchMessages(); // 메시지 목록 새로고침
+            }
+        }
+
+        // 메시지 불러오기
+        async function fetchMessages() {
+            const { data, error } = await supabase
+                .from('chat_messages')
+                .select('*')
+                .eq('phone_number', phoneNumber);
+
+            if (error) {
+                console.error('Error fetching messages:', error);
+            } else {
+                displayMessages(data);
+            }
+        }
+
+        // 메시지 표시
+        function displayMessages(messages) {
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = '';
+
+            messages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerText = msg.message; // 메시지 내용 표시
+                messagesContainer.appendChild(messageElement);
+            });
+        }
+
+        // 채팅 끝내기 함수
+        function endChat() {
+            window.location.href = `feedback.html?phone=${phoneNumber}`; // 후기 작성 페이지로 이동
+        }
+
+        // 초기 메시지 로드
+        fetchMessages();
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후기 작성</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+    <h1>후기 작성</h1>
+    <form id="feedbackForm">
+        <label for="score">점수:</label>
+        <div id="scoreContainer">
+            <label><input type="radio" name="score" value="1" required> 1점</label>
+            <label><input type="radio" name="score" value="2"> 2점</label>
+            <label><input type="radio" name="score" value="3"> 3점</label>
+            <label><input type="radio" name="score" value="4"> 4점</label>
+            <label><input type="radio" name="score" value="5"> 5점</label>
+        </div>
+        <br>
+        
+        <textarea id="feedbackInput" placeholder="후기를 작성하세요..." required></textarea>
+        <br>
+        <button type="submit">제출</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        // Supabase 클라이언트 초기화
+        const supabaseUrl = 'https://lfiiyfntsxuukrwuyiih.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmaWl5Zm50c3h1dWtyd3V5aWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0NDI3NjQsImV4cCI6MjA0MzAxODc2NH0.qCccNoz9idzMM89MXPo_yI5xshaV3ea5jq33l-qrqLI';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const phoneNumber = urlParams.get('phone'); // 쿼리 파라미터에서 채팅 상대방의 전화번호 가져오기
+        const currentUserPhoneNumber = '01053404196'; // 현재 사용자 전화번호 (예시로 하드코딩)
+
+        document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // 기본 폼 제출 방지
+            const feedback = document.getElementById('feedbackInput').value;
+            const score = document.querySelector('input[name="score"]:checked').value; // 선택된 점수 가져오기
+
+            // 후기 저장 로직 추가
+            const { data, error } = await supabase
+                .from('feedback')
+                .insert([{ 
+                    feedback, 
+                    score, // 점수 저장
+                    receiver_phone: phoneNumber, // 후기 받을 사람의 전화번호
+                    sender_phone: currentUserPhoneNumber // 후기 작성하는 사람의 전화번호
+                }]); 
+
+            if (error) {
+                console.error('Error submitting feedback:', error);
+                alert('후기 제출에 실패했습니다. 다시 시도해 주세요.'); // 실패 시 팝업
+            } else {
+                document.getElementById('feedbackInput').value = ''; // 입력란 초기화
+                alert('후기가 제출되었습니다!'); // 성공 시 팝업
+            }
+        });
+    </script>
+</body>
+</html>

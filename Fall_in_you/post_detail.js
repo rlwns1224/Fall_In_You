@@ -36,51 +36,57 @@ function displayPostDetails(post) {
 
 // 댓글 등록
 document.getElementById('submitComment').addEventListener('click', async () => {
-  const comment = document.getElementById('commentInput').value;
-  const phoneNumber = '01053404196'; // 여기에 사용자의 전화번호를 입력하세요
+    const comment = document.getElementById('commentInput').value;
+    const phoneNumber = '01053404196'; // 여기에 사용자의 전화번호를 입력하세요
 
-  const { data, error } = await supabase
-      .from('comments')
-      .insert([
-          { comment, phone_number: phoneNumber, notice_id: id } // 전화번호와 댓글을 저장
-      ]);
+    const { data, error } = await supabase
+        .from('comments')
+        .insert([
+            { comment, phone_number: phoneNumber, notice_id: id } // 전화번호와 댓글을 저장
+        ]);
 
-  if (error) {
-      console.error('Error adding comment:', error);
-  } else {
-      document.getElementById('commentInput').value = ''; // 입력란 초기화
-      fetchComments(); // 댓글 목록 새로고침
-  }
+    if (error) {
+        console.error('Error adding comment:', error);
+    } else {
+        document.getElementById('commentInput').value = ''; // 입력란 초기화
+        fetchComments(); // 댓글 목록 새로고침
+    }
 });
 
 // 댓글 불러오기
 async function fetchComments() {
-  const { data, error } = await supabase
-      .from('comments')
-      .select('*')
-      .eq('notice_id', id); // 여기에 사용자의 전화번호를 입력하세요
+    const { data, error } = await supabase
+        .from('comments')
+        .select('*')
+        .eq('notice_id', id);
 
-  if (error) {
-      console.error('Error fetching comments:', error);
-  } else {
-      displayComments(data);
-  }
+    if (error) {
+        console.error('Error fetching comments:', error);
+    } else {
+        displayComments(data);
+    }
 }
 
 // 댓글 표시
 function displayComments(comments) {
-  const commentsContainer = document.getElementById('commentsContainer');
-  commentsContainer.innerHTML = '';
+    const commentsContainer = document.getElementById('commentsContainer');
+    commentsContainer.innerHTML = '';
 
-  comments.forEach(comment => {
-      const commentElement = document.createElement('div');
-      commentElement.classList.add('comment');
-      commentElement.innerHTML = `
-          <img src="https://via.placeholder.com/30" alt="Profile">
-          <p>${comment.comment}</p>
-      `;
-      commentsContainer.appendChild(commentElement);
-  });
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `
+            <img src="https://via.placeholder.com/30" alt="Profile">
+            <p>${comment.comment}</p>
+            <button onclick="startChat('${comment.phone_number}')">채팅하기</button>
+        `;
+        commentsContainer.appendChild(commentElement);
+    });
+}
+
+// 채팅하기 함수
+function startChat(phoneNumber) {
+    window.location.href = `chat.html?phone=${phoneNumber}`; // 채팅 페이지로 이동
 }
 
 // 초기 게시글 상세 정보 로드
