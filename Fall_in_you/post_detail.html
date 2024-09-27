@@ -15,11 +15,34 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+        .comments {
+            margin-top: 20px;
+        }
+        .comment {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .comment img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .comment p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <h1>게시글 상세</h1>
     <div id="postDetail" class="post"></div>
+
+    <h2>댓글</h2>
+    <div class="comments" id="commentsContainer"></div>
+
+    <textarea id="commentInput" placeholder="댓글을 입력하세요..." rows="3"></textarea>
+    <button id="submitComment">댓글 등록</button>
 
     <script src="post_detail.js"></script>
 </body>
