@@ -1,8 +1,6 @@
-// Supabase 클라이언트 초기화
-const { createClient } = supabase;
-const SUPABASE_URL = 'https://lfiiyfntsxuukrwuyiih.supabase.co'; // Supabase URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmaWl5Zm50c3h1dWtyd3V5aWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0NDI3NjQsImV4cCI6MjA0MzAxODc2NH0.qCccNoz9idzMM89MXPo_yI5xshaV3ea5jq33l-qrqLI'; // Supabase Anon Key
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseUrl = 'https://lfiiyfntsxuukrwuyiih.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmaWl5Zm50c3h1dWtyd3V5aWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0NDI3NjQsImV4cCI6MjA0MzAxODc2NH0.qCccNoz9idzMM89MXPo_yI5xshaV3ea5jq33l-qrqLI';
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // 게시글 가져오기
 async function fetchPosts() {
@@ -32,7 +30,7 @@ function displayPosts(posts) {
         postElement.classList.add('post');
         postElement.innerHTML = `
             <h3>${post.title}</h3>
-            <p>${post.content}</p>
+            <p>${post.contents}</p>
             <p>카테고리: ${post.category}</p>
         `;
         postsContainer.appendChild(postElement);
