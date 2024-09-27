@@ -20,7 +20,7 @@ async function fetchPosts() {
     }
 }
 
-// 게시글 표시
+// 게시글 표시하기
 function displayPosts(posts) {
     const postsContainer = document.getElementById('posts');
     postsContainer.innerHTML = '';
