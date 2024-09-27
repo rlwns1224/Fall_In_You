@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+</head>
+<body>
+    <h1>마이페이지</h1>
+
+    <div id="user-info">
+        <!-- 유저 정보 표시 -->
+    </div>
+
+    <button id="logout">로그아웃</button>
+
+    <script>
+        async function fetchUserData() {
+            const response = await fetch('http://localhost:3000/api/mypage', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`  // 토큰을 Authorization 헤더에 포함
+                }
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+                document.getElementById('user-info').innerHTML = `
+                    <p><strong>전화번호:</strong> ${userData.phone_number}</p>
+                    <p><strong>닉네임:</strong> ${userData.nickname}</p>
+                    <p><strong>언어:</strong> ${userData.language}</p>
+                    <p><strong>나라:</strong> ${userData.country}</p>
+                    <p><strong>지역:</strong> ${userData.region}</p>
+                    <p><strong>태그:</strong> ${userData.tags.join(', ')}</p>
+                    <p><strong>알림 수신:</strong> ${userData.receive_notifications ? '동의' : '미동의'}</p>
+                `;
+            } else {
+                alert('사용자 정보를 불러오는데 실패했습니다.');
+            }
+        }
+
+        document.getElementById('logout').addEventListener('click', async function() {
+            const response = await fetch('http://localhost:3000/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`  // 로그아웃 시 토큰을 포함
+                }
+            });
+
+            if (response.ok) {
+                alert('로그아웃되었습니다.');
+                localStorage.removeItem('token');
+                window.location.href = '/login';  // 로그아웃 후 로그인 페이지로 리디렉션
+            } else {
+                alert('로그아웃에 실패하였습니다.');
+            }
+        });
+
+        // 페이지 로드 시 사용자 정보 불러오기
+        window.onload = fetchUserData;
+    </script>
+</body>
+</html>

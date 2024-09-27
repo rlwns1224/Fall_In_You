@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+
+    <form id="signup-form">
+        <label for="phoneNumber">전화번호:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
+        <label for="nickname">닉네임:</label>
+        <input type="text" id="nickname" name="nickname" required><br><br>
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="language">언어 선택:</label>
+        <select id="language" name="language">
+            <option value="ko">한국어</option>
+            <option value="en">영어</option>
+            <option value="zh">중국어</option>
+            <!-- 필요에 따라 언어를 추가할 수 있습니다 -->
+        </select><br><br>
+
+        <label for="country">나라 선택:</label>
+        <input list="countries" id="country" name="country">
+        <datalist id="countries">
+            <option value="Afghanistan">
+            <option value="Albania">
+            <option value="Algeria">
+            <option value="Andorra">
+            <option value="Angola">
+            <option value="Antigua and Barbuda">
+            <option value="Argentina">
+            <option value="Armenia">
+            <option value="Australia">
+            <option value="Austria">
+            <option value="Azerbaijan">
+            <option value="Bahamas">
+            <option value="Bahrain">
+            <option value="Bangladesh">
+            <option value="Barbados">
+            <option value="Belarus">
+            <option value="Belgium">
+            <option value="Belize">
+            <option value="Benin">
+            <option value="Bhutan">
+            <option value="Bolivia">
+            <option value="Bosnia and Herzegovina">
+            <option value="Botswana">
+            <option value="Brazil">
+            <option value="Brunei">
+            <option value="Bulgaria">
+            <option value="Burkina Faso">
+            <option value="Burundi">
+            <option value="Cabo Verde">
+            <option value="Cambodia">
+            <option value="Cameroon">
+            <option value="Canada">
+            <option value="Central African Republic">
+            <option value="Chad">
+            <option value="Chile">
+            <option value="China">
+            <option value="Colombia">
+            <option value="Comoros">
+            <option value="Congo (Congo-Brazzaville)">
+            <option value="Costa Rica">
+            <option value="Croatia">
+            <option value="Cuba">
+            <option value="Cyprus">
+            <option value="Czechia (Czech Republic)">
+            <option value="Democratic Republic of the Congo">
+            <option value="Denmark">
+            <option value="Djibouti">
+            <option value="Dominica">
+            <option value="Dominican Republic">
+            <option value="Ecuador">
+            <option value="Egypt">
+            <option value="El Salvador">
+            <option value="Equatorial Guinea">
+            <option value="Eritrea">
+            <option value="Estonia">
+            <option value="Eswatini (fmr. 'Swaziland')">
+            <option value="Ethiopia">
+            <option value="Fiji">
+            <option value="Finland">
+            <option value="France">
+            <option value="Gabon">
+            <option value="Gambia">
+            <option value="Georgia">
+            <option value="Germany">
+            <option value="Ghana">
+            <option value="Greece">
+            <option value="Grenada">
+            <option value="Guatemala">
+            <option value="Guinea">
+            <option value="Guinea-Bissau">
+            <option value="Guyana">
+            <option value="Haiti">
+            <option value="Honduras">
+            <option value="Hungary">
+            <option value="Iceland">
+            <option value="India">
+            <option value="Indonesia">
+            <option value="Iran">
+            <option value="Iraq">
+            <option value="Ireland">
+            <option value="Israel">
+            <option value="Italy">
+            <option value="Jamaica">
+            <option value="Japan">
+            <option value="Jordan">
+            <option value="Kazakhstan">
+            <option value="Kenya">
+            <option value="Kiribati">
+            <option value="Kuwait">
+            <option value="Kyrgyzstan">
+            <option value="Laos">
+            <option value="Latvia">
+            <option value="Lebanon">
+            <option value="Lesotho">
+            <option value="Liberia">
+            <option value="Libya">
+            <option value="Liechtenstein">
+            <option value="Lithuania">
+            <option value="Luxembourg">
+            <option value="Madagascar">
+            <option value="Malawi">
+            <option value="Malaysia">
+            <option value="Maldives">
+            <option value="Mali">
+            <option value="Malta">
+            <option value="Marshall Islands">
+            <option value="Mauritania">
+            <option value="Mauritius">
+            <option value="Mexico">
+            <option value="Micronesia">
+            <option value="Moldova">
+            <option value="Monaco">
+            <option value="Mongolia">
+            <option value="Montenegro">
+            <option value="Morocco">
+            <option value="Mozambique">
+            <option value="Myanmar (formerly Burma)">
+            <option value="Namibia">
+            <option value="Nauru">
+            <option value="Nepal">
+            <option value="Netherlands">
+            <option value="New Zealand">
+            <option value="Nicaragua">
+            <option value="Niger">
+            <option value="Nigeria">
+            <option value="North Korea">
+            <option value="North Macedonia">
+            <option value="Norway">
+            <option value="Oman">
+            <option value="Pakistan">
+            <option value="Palau">
+            <option value="Panama">
+            <option value="Papua New Guinea">
+            <option value="Paraguay">
+            <option value="Peru">
+            <option value="Philippines">
+            <option value="Poland">
+            <option value="Portugal">
+            <option value="Qatar">
+            <option value="Romania">
+            <option value="Russia">
+            <option value="Rwanda">
+            <option value="Saint Kitts and Nevis">
+            <option value="Saint Lucia">
+            <option value="Saint Vincent and the Grenadines">
+            <option value="Samoa">
+            <option value="San Marino">
+            <option value="Sao Tome and Principe">
+            <option value="Saudi Arabia">
+            <option value="Senegal">
+            <option value="Serbia">
+            <option value="Seychelles">
+            <option value="Sierra Leone">
+            <option value="Singapore">
+            <option value="Slovakia">
+            <option value="Slovenia">
+            <option value="Solomon Islands">
+            <option value="Somalia">
+            <option value="South Africa">
+            <option value="South Korea">
+            <option value="South Sudan">
+            <option value="Spain">
+            <option value="Sri Lanka">
+            <option value="Sudan">
+            <option value="Suriname">
+            <option value="Sweden">
+            <option value="Switzerland">
+            <option value="Syria">
+            <option value="Tajikistan">
+            <option value="Tanzania">
+            <option value="Thailand">
+            <option value="Timor-Leste">
+            <option value="Togo">
+            <option value="Tonga">
+            <option value="Trinidad and Tobago">
+            <option value="Tunisia">
+            <option value="Turkey">
+            <option value="Turkmenistan">
+            <option value="Tuvalu">
+            <option value="Uganda">
+            <option value="Ukraine">
+            <option value="United Arab Emirates">
+            <option value="United Kingdom">
+            <option value="United States">
+            <option value="Uruguay">
+            <option value="Uzbekistan">
+            <option value="Vanuatu">
+            <option value="Vatican City">
+            <option value="Venezuela">
+            <option value="Vietnam">
+            <option value="Yemen">
+            <option value="Zambia">
+            <option value="Zimbabwe">
+        </datalist><br><br>
+
+        <label for="region">지역 선택(광역시):</label>
+        <select id="region" name="region">
+            <option value="서울특별시">서울특별시</option>
+            <option value="부산광역시">부산광역시</option>
+            <option value="대구광역시">대구광역시</option>
+            <option value="인천광역시">인천광역시</option>
+            <option value="광주광역시">광주광역시</option>
+            <option value="대전광역시">대전광역시</option>
+            <option value="울산광역시">울산광역시</option>
+            <option value="세종특별자치시">세종특별자치시</option>
+        </select><br><br>
+
+        <label for="tags">관심사 선택(복수 선택 가능):</label><br>
+        <input type="checkbox" name="tags" value="유학"> 유학<br>
+        <input type="checkbox" name="tags" value="음악"> 음악<br>
+        <input type="checkbox" name="tags" value="운동"> 운동<br>
+        <input type="checkbox" name="tags" value="미술"> 미술<br><br>
+
+        <label for="receiveNotifications">알림 수신 동의:</label>
+        <input type="checkbox" id="receiveNotifications" name="receiveNotifications"><br><br>
+
+        <button type="submit">회원가입</button>
+    </form>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = {
+                phoneNumber: document.getElementById('phoneNumber').value,
+                nickname: document.getElementById('nickname').value,
+                password: document.getElementById('password').value,
+                language: document.getElementById('language').value,
+                country: document.getElementById('country').value,
+                region: document.getElementById('region').value,
+                tags: Array.from(document.querySelectorAll('input[name="tags"]:checked')).map(checkbox => checkbox.value),
+                receiveNotifications: document.getElementById('receiveNotifications').checked
+            };
+
+            const response = await fetch('/api/signUp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                alert('회원가입이 완료되었습니다!');
+                window.location.href = '/login';  // 회원가입 후 로그인 페이지로 리디렉션
+            } else {
+                alert('회원가입에 실패하였습니다.');
+            }
+        });
+    </script>
+</body>
+</html>

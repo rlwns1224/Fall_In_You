@@ -164,7 +164,7 @@ export const getUserById = async (userId) => {
     // 데이터베이스에서 사용자 정보를 ID로 조회
     const { data, error } = await supabase
       .from('users')  // 'users' 테이블에서 조회
-      .select('id, phone_number, nickname, receive_notifications')  // 필요한 필드 선택
+      .select('id, phone_number, nickname, receive_notifications, language, country, region, tags')  // 필요한 필드 선택
       .eq('id', userId)  // 조건: id가 일치하는 사용자 선택
       .single();  // 단일 결과 반환
 

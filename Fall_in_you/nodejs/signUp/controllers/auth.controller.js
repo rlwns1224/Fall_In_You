@@ -18,7 +18,7 @@ export const getUserData = async (req, res) => {
     console.log(userId);
     const userData = await authService.getUserById(userId);  // 서비스 호출
     console.log(userData);
-    return res.status(200).json(userData);
+    return res.status(200).json(userData);  // 사용자 데이터를 클라이언트에 반환
   } catch (error) {
     return res.status(500).json({ message: "사용자 정보 조회 실패" });
   }
@@ -144,7 +144,7 @@ export const otpVerification = async (req, res) => {
 // 이름, 폰번호, 비밀번호 및 수신 동의 여부 입력 후 회원가입
 export const signUp = async (req, res) => {
   const { phoneNumber, nickname, password, receiveNotifications, language, country, region, tags } = req.body;
-  
+
   try {
     // 새로운 필드를 포함하여 사용자 등록
     await authService.registerUser(phoneNumber, nickname, password, receiveNotifications, language, country, region, tags);
