@@ -37,7 +37,7 @@ function displayPostDetails(post) {
 // 댓글 등록
 document.getElementById('submitComment').addEventListener('click', async () => {
     const comment = document.getElementById('commentInput').value;
-    const phoneNumber = '01053404196'; // 여기에 사용자의 전화번호를 입력하세요
+    const phoneNumber = '01012345678'; // 여기에 사용자의 전화번호를 입력하세요
 
     const { data, error } = await supabase
         .from('comments')
