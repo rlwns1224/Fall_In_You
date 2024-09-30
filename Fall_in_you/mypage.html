@@ -14,8 +14,14 @@
         <!-- 유저 정보 표시 -->
     </div>
 
+    <h2>후기</h2>
+    <div id="reviews">
+        <!-- 후기가 여기 표시될 예정 -->
+    </div>
+    <button id="viewMore" onclick="showMore()">자세히 보기</button>
+
     <button id="logout">로그아웃</button>
-    <!-- 토큰 확인 및 요청 처리 -->
+
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('token');  // 저장된 토큰 불러오기
@@ -46,17 +52,6 @@
             }
         });
 
-        // 페이지가 로드될 때 토큰 확인
-        window.onload = function () {
-            const token = localStorage.getItem('token');
-
-            if (!token || token === "undefined") {
-                alert('로그인이 필요합니다.');
-                window.location.href = 'login.html';  // 토큰이 없으면 로그인 페이지로 이동
-            }
-        };
-    </script>
-    <script>
         async function fetchUserData() {
             const response = await fetch('http://localhost:3000/api/mypage', {
                 method: 'GET',
@@ -76,9 +71,55 @@
                     <p><strong>태그:</strong> ${userData.tags.join(', ')}</p>
                     <p><strong>알림 수신:</strong> ${userData.receive_notifications ? '동의' : '미동의'}</p>
                 `;
+
+                // 후기 데이터를 가져오는 로직 추가
+                fetchReviews(userData.phone_number);
             } else {
                 alert('사용자 정보를 불러오는데 실패했습니다.');
             }
+        }
+
+        // 후기 가져오기
+        async function fetchReviews(phoneNumber) {
+            const { data: reviews, error } = await supabase
+                .from('feedback')
+                .select('*')
+                .eq('receiver_phone', phoneNumber)
+                .order('created_at', { ascending: false }); // 최신순으로 정렬
+
+            if (error) {
+                alert('후기를 불러오는데 실패했습니다.');
+                return;
+            }
+
+            const reviewContainer = document.getElementById('reviews');
+            reviews.forEach((review, index) => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review';
+                reviewElement.innerHTML = `
+                    <p><strong>점수:</strong> ${review.score}점</p>
+                    <p>${review.feedback}</p>
+                `;
+                if (index >= 3) {
+                    reviewElement.style.display = 'none'; // 3개 이상은 숨김
+                    reviewElement.classList.add('extra');
+                }
+                reviewContainer.appendChild(reviewElement);
+            });
+
+            // 후기 개수가 3개 이하일 경우 버튼 숨김
+            if (reviews.length <= 3) {
+                document.getElementById('viewMore').style.display = 'none';
+            }
+        }
+
+        // "자세히 보기" 버튼을 클릭하면 나머지 후기 표시
+        function showMore() {
+            const extraReviews = document.querySelectorAll('.review.extra');
+            extraReviews.forEach(review => {
+                review.style.display = 'block'; // 추가 리뷰를 보여줌
+            });
+            document.getElementById('viewMore').style.display = 'none'; // 버튼 숨김
         }
 
         document.getElementById('logout').addEventListener('click', async function () {
@@ -98,8 +139,14 @@
             }
         });
 
-        // 페이지 로드 시 사용자 정보 불러오기
         window.onload = fetchUserData;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        const supabaseUrl = 'https://lfiiyfntsxuukrwuyiih.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmaWl5Zm50c3h1dWtyd3V5aWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0NDI3NjQsImV4cCI6MjA0MzAxODc2NH0.qCccNoz9idzMM89MXPo_yI5xshaV3ea5jq33l-qrqLI';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     </script>
 </body>
 
